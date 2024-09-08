@@ -1,0 +1,20 @@
+      <Int> ::= *integers*
+     <Bool> ::= *booleans*
+       <Id> ::= *identifiers*
+ <ArithExp> ::= <Int>
+              | <Id>
+              | <ArithExp> + <ArithExp>
+              | <ArithExp> / <ArithExp>
+              | ( <ArithExp> )
+  <BoolExp> ::= <Bool>
+              | <ArithExp> <= <ArithExp>
+              | ! <BoolExp>
+              | <BoolExp> && <BoolExp>
+              | ( <BoolExp> )
+<Statement> ::= <Id> = <ArithExp> ;
+              | <Statement> <Statement>
+              | if ( <BoolExp> ) <Block> else <Block>
+              | while ( <BoolExp> ) <Block>
+    <Block> ::= {}
+              | { <Statement> }
+  <Program> ::= <Statement> *EOF*
