@@ -1,5 +1,5 @@
-from lexer import TokenType, Lexer
-from grammar import *
+from imp.lexer import TokenType, Lexer
+from imp.grammar import *
 from typing import Dict, Any
 
 # This is the table that is used to determine which production should be used

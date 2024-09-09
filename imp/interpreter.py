@@ -1,5 +1,5 @@
-from grammar import *
-from parser import Parser
+from imp.grammar import *
+from imp.parser import Parser
 from typing import Dict
 
 class Interpreter:

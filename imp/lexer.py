@@ -5,9 +5,10 @@ from typing import Any
 
 class TokenType(Enum):
     # Constants
-    INT = r'-?\d+'
-    BOOL = r'true|false'
+    INT = r'\d+'
     ID = r'[a-zA-Z_][a-zA-Z_0-9]*'
+    # Since bool constants could otherwise be IDs, they have to come after ID here
+    BOOL = r'true|false'
 
     # Arithmetic
     PLUS = r'\+'
@@ -40,7 +41,6 @@ class TokenType(Enum):
     IF = 'if'
     ELSE = 'else'
     WHILE = 'while'
-    FOR = 'for'
 
     # Special End Of File token
     EOF = None
@@ -54,7 +54,6 @@ keywords = {
     'if': TokenType.IF.name,
     'else': TokenType.ELSE.name,
     'while': TokenType.WHILE.name,
-    'for': TokenType.FOR.name,
 }
 
 # Tokens that we don't want to auto generate lexing rules for
@@ -75,16 +74,17 @@ def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     # Keywords get lexed as IDs, so we have to undo that when we get one
     t.type = keywords.get(t.value, 'ID')
+
+    # Bools also need to be handled specially
+    if t.value in ['true', 'false']:
+        t.type = TokenType.BOOL.name
+        t.value = t.value == 'true'
+
     return t
 
 def t_INT(t):
-    r'-?\d+'
+    r'\d+'
     t.value = int(t.value)
-    return t
-
-def t_BOOL(t):
-    r'true|false'
-    t.value = bool(t.value)
     return t
 
 def t_eof(t):
